@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../components/ui/Card';
 import SearchForm from '../components/tracking/SearchForm';
 import { PackageSearch } from 'lucide-react';
+import Logo from '../assets/logo.svg';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center py-10 md:py-20">
       <div className="text-center mb-12 animate-in fade-in slide-in-from-top-6 duration-700">
+        <img src={Logo} alt="Madecentro" className="h-12 mx-auto mb-8" />
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-6">
           <PackageSearch size={40} />
         </div>
