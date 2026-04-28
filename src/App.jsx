@@ -1,19 +1,20 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import HomePage from './pages/HomePage';
+import TrackingPage from './pages/TrackingPage';
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary-light">
-      <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 max-w-md w-full text-center">
-        <h1 className="text-3xl font-bold text-primary mb-4">Madecentro Tracking</h1>
-        <p className="text-secondary mb-6">
-          Plataforma de consulta de pedidos en desarrollo.
-        </p>
-        <button className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-standard font-semibold">
-          Iniciar Consulta
-        </button>
-      </div>
-    </div>
-  )
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/tracking/:id" element={<TrackingPage />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
 }
 
-export default App
+export default App;
