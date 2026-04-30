@@ -8,20 +8,23 @@ export const useAuthStore = create((set) => ({
 
   fetchToken: async () => {
     const url = `${TOKEN_AUTH_URL}?action=getToken&key=${TOKEN_KEY}`;
-    console.log("Fetching token from:", url);
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(url);
-      const data = await response.json();
-      console.log("Auth API Response:", data);
+      const text = await response.text();
 
-      if (data.success && data.data.token) {
-        set({ token: data.data.token, isLoading: false });
-      } else {
-        throw new Error(data.message || "Error al obtener el token");
+      try {
+        const data = JSON.parse(text);
+        if (data.success && data.data && data.data.token) {
+          set({ token: data.data.token, isLoading: false });
+        } else {
+          throw new Error(data.message || "Error al obtener el token");
+        }
+      } catch (e) {
+        console.error("Failed to parse Auth JSON. Response text:", text);
+        throw new Error("La respuesta de autenticación no es válida. Revisa la consola.");
       }
     } catch (err) {
-      console.error("Auth Store Error:", err);
       set({ error: err.message, isLoading: false });
     }
   },

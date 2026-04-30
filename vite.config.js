@@ -13,8 +13,13 @@ export default defineConfig({
       '/api-google': {
         target: 'https://script.google.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-google/, ''),
+        secure: false,
         followRedirects: true,
+        rewrite: (path) => path.replace(/^\/api-google/, ''),
+        headers: {
+          'Origin': 'https://script.google.com',
+          'Referer': 'https://script.google.com/'
+        }
       }
     }
   }

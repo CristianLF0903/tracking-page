@@ -13,13 +13,18 @@ export const apiClient = async (params = {}, token) => {
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Error en la petición');
+    const text = await response.text();
+    
+    try {
+      const data = JSON.parse(text);
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Error en la petición');
+      }
+      return data;
+    } catch (e) {
+      console.error('Failed to parse JSON. Response text:', text);
+      throw new Error('La respuesta del servidor no es un JSON válido. Revisa la consola para más detalles.');
     }
-
-    return data;
   } catch (error) {
     console.error('API Error:', error);
     throw error;
