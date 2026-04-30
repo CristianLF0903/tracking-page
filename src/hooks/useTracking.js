@@ -6,14 +6,17 @@ import { useAuthStore } from '../store/useAuthStore';
  * Custom hook para gestionar el estado de la consulta de tracking
  */
 export const useTracking = () => {
-  const { token } = useAuthStore();
+  const token = useAuthStore((state) => state.token);
+  const isAuthLoading = useAuthStore((state) => state.isLoading);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchTracking = useCallback(async (id) => {
     if (!token) {
-      setError('Error de autenticación. No se pudo obtener el token.');
+      if (!isAuthLoading) {
+        setError('Error de autenticación. No se pudo obtener el token.');
+      }
       return;
     }
 
@@ -31,7 +34,7 @@ export const useTracking = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token]);
 
   return {
     data,

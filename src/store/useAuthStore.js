@@ -7,10 +7,13 @@ export const useAuthStore = create((set) => ({
   error: null,
 
   fetchToken: async () => {
+    const url = `${TOKEN_AUTH_URL}?action=getToken&key=${TOKEN_KEY}`;
+    console.log('Fetching token from:', url);
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${TOKEN_AUTH_URL}?action=getToken&key=${TOKEN_KEY}`);
+      const response = await fetch(url);
       const data = await response.json();
+      console.log('Auth API Response:', data);
       
       if (data.success && data.token) {
         set({ token: data.token, isLoading: false });
