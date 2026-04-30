@@ -8,4 +8,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    proxy: {
+      '/api-google': {
+        target: 'https://script.google.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-google/, ''),
+        followRedirects: true,
+      }
+    }
+  }
 })
