@@ -7,14 +7,15 @@ export const trackingService = {
   /**
    * Busca un pedido por ID de pedido o número de guía
    * @param {string} id 
+   * @param {string} token
    */
-  search: async (id) => {
+  search: async (id, token) => {
     const isOrder = id.trim().startsWith('#');
     const params = {
       column: isOrder ? 'order_id' : 'tracking_number',
       value: id.trim()
     };
 
-    return await apiClient(params);
+    return await apiClient(params, token);
   }
 };

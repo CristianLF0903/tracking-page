@@ -1,11 +1,11 @@
-import { API_URL, JWT_TOKEN } from '../utils/constants';
+import { API_URL } from '../utils/constants';
 
 /**
  * Cliente HTTP base para realizar peticiones a la API
  */
-export const apiClient = async (params = {}) => {
+export const apiClient = async (params = {}, token) => {
   const queryParams = new URLSearchParams({
-    token: JWT_TOKEN,
+    token: token,
     ...params
   });
 
