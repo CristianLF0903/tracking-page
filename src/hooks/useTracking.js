@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 import { trackingService } from '../services/trackingService';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/useAuthStore';
 
 /**
  * Custom hook para gestionar el estado de la consulta de tracking
  */
 export const useTracking = () => {
-  const { token } = useAuth();
+  const { token } = useAuthStore();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
