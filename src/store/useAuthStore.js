@@ -20,9 +20,12 @@ export const useAuthStore = create((set) => ({
         } else {
           throw new Error(data.message || "Error al obtener el token");
         }
-      } catch (e) {
-        console.error("Failed to parse Auth JSON. Response text:", text);
-        throw new Error("La respuesta de autenticación no es válida. Revisa la consola.");
+      } catch (err) {
+        throw new Error(
+          "La respuesta de autenticación no es válida. Revisa la consola." +
+            err,
+          { cause: err },
+        );
       }
     } catch (err) {
       set({ error: err.message, isLoading: false });
