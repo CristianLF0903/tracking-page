@@ -2,49 +2,64 @@ import { useState, useCallback } from 'react';
 import { trackingService } from '../services/trackingService';
 import { useAuthStore } from '../store/useAuthStore';
 
-/**
- * Custom hook para gestionar el estado de la consulta de tracking
- */
 export const useTracking = () => {
-  const token = useAuthStore((state) => state.token);
-  const isAuthLoading = useAuthStore((state) => state.isLoading);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { token, fetchOrdersToken } = useAuthStore();
 
   const fetchTracking = useCallback(async (id) => {
-    if (!token) {
-      if (!isAuthLoading) {
-        setError('Error de autenticación. No se pudo obtener el token.');
-      }
-      return;
-    }
+    if (!id || !token) return;
 
     setIsLoading(true);
     setError(null);
+    setData(null);
+
     try {
-      const response = await trackingService.search(id, token);
-      setData(response.data);
-      if (response.count === 0) {
-        setError('No se encontró información para el número ingresado.');
+      // 1. Intentar con la API principal
+      try {
+        const response = await trackingService.search(id, token);
+        if (response.success && response.data && response.data.length > 0) {
+          setData(response.data);
+          setIsLoading(false);
+          return;
+        }
+      } catch (err) {
+        // Si es un error de "no encontrado", seguimos al fallback
+        // Si es otro tipo de error (red, auth), lo lanzamos
+        if (!err.message.includes('No se encontró')) {
+          throw err;
+        }
       }
+
+      // 2. Si no se encontró y es un número de orden, intentar con la API de respaldo
+      const isOrder = id.trim().startsWith('#');
+      if (isOrder) {
+        const ordersToken = await fetchOrdersToken();
+        if (ordersToken) {
+          const fallbackResponse = await trackingService.searchFallback(id, ordersToken);
+          if (fallbackResponse.success && fallbackResponse.data && fallbackResponse.data.length > 0) {
+            setData(fallbackResponse.data);
+            setIsLoading(false);
+            return;
+          }
+        }
+      }
+
+      // 3. Si nada funcionó
+      setError(`No se encontró información para el identificador: ${id}`);
     } catch (err) {
-      setError(err.message || 'Ocurrió un error al consultar el estado de tu pedido.');
-      setData(null);
+      console.error('Tracking Hook Error:', err);
+      setError(err.message || 'Error al consultar el seguimiento');
     } finally {
       setIsLoading(false);
     }
-  }, [token]);
+  }, [token, fetchOrdersToken]);
 
   return {
     data,
     isLoading,
     error,
-    fetchTracking,
-    reset: () => {
-      setData(null);
-      setError(null);
-      setIsLoading(false);
-    }
+    fetchTracking
   };
 };

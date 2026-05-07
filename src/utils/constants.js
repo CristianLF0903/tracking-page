@@ -15,3 +15,5 @@ export const STATUS_FLOW = [
   'En camino',
   'Entregado',
 ];
+export const ORDERS_API_URL = import.meta.env.VITE_ORDERS_API_URL;
+export const ORDERS_TOKEN_KEY = import.meta.env.VITE_ORDERS_TOKEN_KEY;

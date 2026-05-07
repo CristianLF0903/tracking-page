@@ -3,13 +3,13 @@ import { API_URL } from '../utils/constants';
 /**
  * Cliente HTTP base para realizar peticiones a la API
  */
-export const apiClient = async (params = {}, token) => {
+export const apiClient = async (params = {}, token, baseUrl = API_URL) => {
   const queryParams = new URLSearchParams({
     token: token,
     ...params
   });
 
-  const url = `${API_URL}?${queryParams.toString()}`;
+  const url = `${baseUrl}?${queryParams.toString()}`;
 
   try {
     const response = await fetch(url);

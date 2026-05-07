@@ -42,7 +42,7 @@ const GuiaCard = ({ guia }) => {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-bold text-lg text-secondary-dark">
-                Guía #{_tracking_number}
+                {_tracking_number === 'PENDIENTE' ? 'Preparando envío' : `Guía #${_tracking_number}`}
               </h3>
               <Badge
                 variant={
@@ -53,7 +53,7 @@ const GuiaCard = ({ guia }) => {
               </Badge>
             </div>
             <p className="text-sm text-secondary font-medium">
-              {_tracking_company}
+              {_tracking_number === 'PENDIENTE' ? 'Tu pedido está siendo procesado por Madecentro' : _tracking_company}
             </p>
           </div>
         </div>
