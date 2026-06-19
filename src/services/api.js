@@ -12,7 +12,7 @@ export const apiClient = async (params = {}, token, baseUrl = API_URL) => {
   const url = `${baseUrl}?${queryParams.toString()}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { referrerPolicy: 'no-referrer' });
     const text = await response.text();
     
     try {

@@ -20,11 +20,21 @@ export const useTrackingStore = create((set) => ({
       return
     }
 
+    const dedupe = (items) => {
+      const seen = new Set()
+      return items.filter(item => {
+        const key = item._fulfillment_id ?? item._tracking_number ?? JSON.stringify(item)
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
+    }
+
     try {
       try {
         const response = await trackingService.search(id, token)
         if (response.success && response.data?.length > 0) {
-          set({ data: response.data, isLoading: false })
+          set({ data: dedupe(response.data), isLoading: false })
           return
         }
       } catch (err) {
@@ -37,7 +47,7 @@ export const useTrackingStore = create((set) => ({
         if (ordersToken) {
           const fallbackResponse = await trackingService.searchFallback(id, ordersToken)
           if (fallbackResponse.success && fallbackResponse.data?.length > 0) {
-            set({ data: fallbackResponse.data, isLoading: false })
+            set({ data: dedupe(fallbackResponse.data), isLoading: false })
             return
           }
         }

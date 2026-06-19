@@ -11,7 +11,7 @@ export const trackingService = {
   search: async (id, token) => {
     const isOrder = id.trim().startsWith('#');
     const params = {
-      column: isOrder ? '_fulfillment_name' : '_tracking_number',
+      column: isOrder ? '_order_name' : '_tracking_number',
       value: id.trim()
     };
 
