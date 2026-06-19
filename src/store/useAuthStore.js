@@ -16,7 +16,7 @@ export const useAuthStore = create((set, get) => ({
     const url = `${TOKEN_AUTH_URL}?action=getToken&key=${TOKEN_KEY}`;
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { referrerPolicy: 'no-referrer' });
       const text = await response.text();
       const data = JSON.parse(text);
       if (data.success && data.data?.token) {
@@ -35,7 +35,7 @@ export const useAuthStore = create((set, get) => ({
 
     const url = `${ORDERS_API_URL}?action=getToken&key=${ORDERS_TOKEN_KEY}`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { referrerPolicy: 'no-referrer' });
       const data = await response.json();
       if (data.success && data.data?.token) {
         set({ ordersToken: data.data.token });
