@@ -1,28 +1,40 @@
-import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import HomePage from './pages/HomePage';
-import TrackingPage from './pages/TrackingPage';
-import { useAuthStore } from './store/useAuthStore';
+import { useEffect } from 'react'
+import Layout from './components/layout/Layout'
+import HomePage from './pages/HomePage'
+import TrackingPage from './pages/TrackingPage'
+import LoadingPage from './components/common/LoadingPage'
+import { useAuthStore } from './store/useAuthStore'
+import { useTrackingStore } from './store/useTrackingStore'
+import { initIframeMessaging } from './utils/iframeInit'
 
 function App() {
-  const fetchToken = useAuthStore((state) => state.fetchToken);
+	const fetchToken = useAuthStore((state) => state.fetchToken)
+	const authLoading = useAuthStore((state) => state.isLoading)
 
-  useEffect(() => {
-    fetchToken();
-  }, [fetchToken]);
+	const { isLoading, data, error, searchId, fetchTracking, reset } = useTrackingStore()
 
-  return (
-    <Router basename={import.meta.env.BASE_URL}>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/tracking/:id" element={<TrackingPage />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-      </Layout>
-    </Router>
-  );
+	useEffect(() => {
+		fetchToken()
+		initIframeMessaging(fetchTracking, reset)
+	}, [fetchToken])
+
+	if (authLoading) {
+		return <Layout><LoadingPage /></Layout>
+	}
+
+	const showTracking = Boolean(data || error)
+
+	return (
+		<Layout>
+			{isLoading ? (
+				<LoadingPage searchId={searchId} />
+			) : showTracking ? (
+				<TrackingPage onBack={reset} />
+			) : (
+				<HomePage />
+			)}
+		</Layout>
+	)
 }
 
-export default App;
+export default App

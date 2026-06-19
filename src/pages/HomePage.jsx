@@ -1,16 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import Card from "../components/ui/Card";
 import SearchForm from "../components/tracking/SearchForm";
 import { PackageSearch } from "lucide-react";
 import Logo from "../assets/logo.svg";
+import { useTrackingStore } from "../store/useTrackingStore";
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  const fetchTracking = useTrackingStore((state) => state.fetchTracking);
 
   const handleSearch = (id) => {
-    // Codificar el ID para la URL (especialmente si tiene #)
-    const encodedId = encodeURIComponent(id);
-    navigate(`/tracking/${encodedId}`);
+    fetchTracking(id.trim());
   };
 
   return (

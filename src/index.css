@@ -1,30 +1,24 @@
-@import "tailwindcss";
-
-@theme {
-  --color-primary-light: #F39325;
-  --color-primary: #EF7D00;
-  --color-primary-strong: #EC6608;
-  --color-primary-dark: #D7760C;
-
-  --color-secondary-light: #F4F2F2;
-  --color-secondary: #666564;
-  --color-secondary-dark: #3E3E3C;
-
-  --font-sans: "Outfit", "Inter", "system-ui", "sans-serif";
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-secondary-light text-secondary antialiased;
-    font-family: var(--font-sans);
-  }
+	body {
+		@apply bg-secondary-light text-secondary antialiased;
+		font-family: var(--font-sans);
+	}
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-secondary-dark font-bold;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply text-secondary-dark font-bold;
+	}
 }
 
 /* Custom transitions and utilities */
 .transition-standard {
-  @apply transition-all duration-300 ease-in-out;
+	@apply transition-all duration-300 ease-in-out;
 }
