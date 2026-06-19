@@ -34,6 +34,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          APP_BASE_URL: /${{ github.event.repository.name }}/
           VITE_TRACKING_API_URL: ${{ secrets.VITE_TRACKING_API_URL }}
           VITE_TOKEN_KEY: ${{ secrets.VITE_TOKEN_KEY }}
           VITE_TOKEN_AUTH_URL: ${{ secrets.VITE_TOKEN_AUTH_URL }}
