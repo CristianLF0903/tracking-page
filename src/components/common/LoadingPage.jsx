@@ -1,11 +1,8 @@
 import Spinner from '../ui/Spinner'
-import Logo from '../../assets/logo.svg'
 
 const LoadingPage = ({ searchId }) => {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in duration-500">
-			{/* <img src={Logo} alt="Madecentro" className="h-10 mx-auto mb-12 opacity-60" /> */}
-
 			<div className="relative flex items-center justify-center mb-8">
 				<div className="absolute w-24 h-24 rounded-full bg-primary/10 animate-ping" />
 				<div className="relative w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">

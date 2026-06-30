@@ -18,7 +18,9 @@ export const initIframeMessaging = (fetchTracking, resetTracking) => {
 		switch (type) {
 			case 'NAVIGATE_TRACKING':
 				if (payload?.id) {
-					fetchTracking(payload.id)
+					const rawId = String(payload.id).trim()
+					const isOrder = rawId.startsWith('#')
+					fetchTracking(isOrder ? 'order' : 'tracking', rawId.replace(/^#/, ''))
 					window.parent.postMessage(
 						{ type: 'VIEW_CHANGED', payload: { view: 'tracking', id: payload.id } },
 						'*',

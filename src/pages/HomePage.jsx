@@ -1,23 +1,29 @@
 import Card from '../components/ui/Card'
 import SearchForm from '../components/tracking/SearchForm'
-import { PackageSearch } from 'lucide-react'
-import Logo from '../assets/logo.svg'
+import { Hash, PackageSearch, PackageCheck } from 'lucide-react'
+import Logo from '../assets/madeberto-pedidos.webp'
 import { useTrackingStore } from '../store/useTrackingStore'
 
 const HomePage = () => {
 	const fetchTracking = useTrackingStore((state) => state.fetchTracking)
 
-	const handleSearch = (id) => {
-		fetchTracking(id.trim())
+	const handleSearch = (type, value) => {
+		fetchTracking(type, value.trim())
 	}
 
 	return (
 		<div className="flex flex-col items-center justify-center py-10 md:py-20">
 			<div className="text-center mb-12 animate-in fade-in slide-in-from-top-6 duration-700">
-				{/* <img src={Logo} alt="Madecentro" className="h-12 mx-auto mb-8" /> */}
-				<div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-6">
+				<img
+					src={Logo}
+					alt="Madecentro"
+					className="mx-auto mb-6"
+					height="200"
+					width="200"
+				/>
+				{/* <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-6">
 					<PackageSearch size={40} />
-				</div>
+				</div> */}
 				<h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
 					Consulta tu pedido
 				</h1>
@@ -33,7 +39,7 @@ const HomePage = () => {
 
 			<div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
 				<div className="text-center">
-					<div className="text-primary font-bold text-xl mb-1">01</div>
+					<Hash className="text-primary mx-auto mb-1" size={28} strokeWidth={2.5} />
 					<h3 className="font-bold text-secondary-dark mb-2">
 						Ingresa tu pedido o guía
 					</h3>
@@ -43,7 +49,7 @@ const HomePage = () => {
 					</p>
 				</div>
 				<div className="text-center">
-					<div className="text-primary font-bold text-xl mb-1">02</div>
+					<PackageSearch className="text-primary mx-auto mb-1" size={28} strokeWidth={2.5} />
 					<h3 className="font-bold text-secondary-dark mb-2">
 						Estado de tu compra
 					</h3>
@@ -53,7 +59,7 @@ const HomePage = () => {
 					</p>
 				</div>
 				<div className="text-center">
-					<div className="text-primary font-bold text-xl mb-1">03</div>
+					<PackageCheck className="text-primary mx-auto mb-1" size={28} strokeWidth={2.5} />
 					<h3 className="font-bold text-secondary-dark mb-2">
 						¡Recibe y disfruta!
 					</h3>

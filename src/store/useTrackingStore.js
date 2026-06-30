@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { trackingService } from '../services/trackingService'
+import { ordersService } from '../services/ordersService'
 import { useAuthStore } from './useAuthStore'
 
 export const useTrackingStore = create((set) => ({
@@ -7,13 +8,14 @@ export const useTrackingStore = create((set) => ({
 	isLoading: false,
 	error: null,
 	searchId: null,
+	searchType: null,
 
-	fetchTracking: async (id) => {
-		if (!id) return
+	fetchTracking: async (type, value) => {
+		if (!value) return
 
 		const { token, fetchOrdersToken } = useAuthStore.getState()
 
-		set({ isLoading: true, error: null, data: null, searchId: id })
+		set({ isLoading: true, error: null, data: null, searchId: value, searchType: type })
 
 		if (!token) {
 			set({
@@ -105,7 +107,7 @@ export const useTrackingStore = create((set) => ({
 
 		try {
 			try {
-				const response = await trackingService.search(id, token)
+				const response = await trackingService.search(type, value, token)
 				if (response.success && response.data?.length > 0) {
 					set({
 						data: normalizeAndGroupGuides(response.data),
@@ -117,12 +119,11 @@ export const useTrackingStore = create((set) => ({
 				if (!err.message.includes('No se encontró')) throw err
 			}
 
-			const isOrder = id.trim().startsWith('#')
-			if (isOrder) {
+			if (type === 'order') {
 				const ordersToken = await fetchOrdersToken()
 				if (ordersToken) {
-					const fallbackResponse = await trackingService.searchFallback(
-						id,
+					const fallbackResponse = await ordersService.search(
+						value,
 						ordersToken,
 					)
 					if (fallbackResponse.success && fallbackResponse.data?.length > 0) {
@@ -136,7 +137,7 @@ export const useTrackingStore = create((set) => ({
 			}
 
 			set({
-				error: `No se encontró información para el identificador: ${id}`,
+				error: `No se encontró información para el identificador: ${value}`,
 				isLoading: false,
 			})
 		} catch (err) {
@@ -149,5 +150,5 @@ export const useTrackingStore = create((set) => ({
 	},
 
 	reset: () =>
-		set({ data: null, isLoading: false, error: null, searchId: null }),
+		set({ data: null, isLoading: false, error: null, searchId: null, searchType: null }),
 }))

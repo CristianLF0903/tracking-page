@@ -40,7 +40,7 @@ const TrackingTimeline = ({ currentStatus }) => {
           style={{ 
             left: `${offsetPercent}%`, 
             width: `${progressWidth}%`,
-            backgroundColor: '#EF7D00' // primary fallback
+            backgroundColor: '#f68414' // primary fallback
           }} 
         />
 
