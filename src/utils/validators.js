@@ -1,38 +1,26 @@
 /**
- * Valida si el input es un número de pedido (empieza con #) o una guía (solo números)
- * @param {string} value 
- * @returns {Object} { type: 'order' | 'tracking' | 'unknown', isValid: boolean }
+ * Valida el valor ingresado según el tipo seleccionado (guía o pedido)
+ * @param {'tracking' | 'order'} type
+ * @param {string} value
+ * @returns {Object} { isValid: boolean, message: string }
  */
-export const validateSearchInput = (value) => {
+export const validateSearchInput = (type, value) => {
   const trimmedValue = value.trim();
-  
+
   if (!trimmedValue) {
-    return { type: 'unknown', isValid: false, message: 'Por favor ingresa un valor' };
+    return { isValid: false, message: 'Por favor ingresa un valor' };
   }
 
-  // Si empieza con # es pedido
-  if (trimmedValue.startsWith('#')) {
-    const isValidOrder = /^#\d+$/.test(trimmedValue);
-    return { 
-      type: 'order', 
-      isValid: isValidOrder,
-      message: isValidOrder ? '' : 'Formato de pedido inválido (Ej: #100192299)'
+  const pattern = type === 'order' ? /^#?\d+$/ : /^\d+$/;
+  if (!pattern.test(trimmedValue)) {
+    return {
+      isValid: false,
+      message:
+        type === 'order'
+          ? 'Ingresa solo el número de pedido (con o sin #)'
+          : 'Ingresa solo el número de guía',
     };
   }
 
-  // Si son solo números es guía
-  const isValidTracking = /^\d+$/.test(trimmedValue);
-  if (isValidTracking) {
-    return { 
-      type: 'tracking', 
-      isValid: true,
-      message: ''
-    };
-  }
-
-  return { 
-    type: 'unknown', 
-    isValid: false, 
-    message: 'Ingresa un número de pedido (#...) o guía (solo números)' 
-  };
+  return { isValid: true, message: '' };
 };

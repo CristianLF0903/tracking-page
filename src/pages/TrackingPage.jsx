@@ -7,7 +7,7 @@ import EmptyState from "../components/common/EmptyState";
 import Button from "../components/ui/Button";
 
 const TrackingPage = ({ onBack }) => {
-  const { data, error, searchId, fetchTracking } = useTrackingStore()
+  const { data, error, searchId, searchType, fetchTracking } = useTrackingStore()
 
   const BackButton = () => (
     <button
@@ -27,7 +27,7 @@ const TrackingPage = ({ onBack }) => {
           {error.includes("No se encontró") ? (
             <EmptyState message={error} onBack={onBack} />
           ) : (
-            <ErrorState message={error} onRetry={() => fetchTracking(searchId)} />
+            <ErrorState message={error} onRetry={() => fetchTracking(searchType, searchId)} />
           )}
         </div>
       </div>
@@ -42,7 +42,7 @@ const TrackingPage = ({ onBack }) => {
         <BackButton />
         <Button
           variant="ghost"
-          onClick={() => fetchTracking(searchId)}
+          onClick={() => fetchTracking(searchType, searchId)}
           className="text-xs gap-1.5 h-8 px-3"
         >
           <RefreshCw size={14} />
