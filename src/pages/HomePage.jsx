@@ -37,7 +37,7 @@ const HomePage = () => {
 				<SearchForm onSearch={handleSearch} />
 			</Card>
 
-			<div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
+			{/* <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
 				<div className="text-center">
 					<Hash className="text-primary mx-auto mb-1" size={28} strokeWidth={2.5} />
 					<h3 className="font-bold text-secondary-dark mb-2">
@@ -68,7 +68,7 @@ const HomePage = () => {
 						productos.
 					</p>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	)
 }

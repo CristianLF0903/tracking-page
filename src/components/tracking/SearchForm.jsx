@@ -73,8 +73,9 @@ const SearchForm = ({ onSearch, isLoading }) => {
 					Buscar
 				</Button>
 			</div>
-			<p className="text-xs text-secondary/60 text-center md:text-left">
-				Selecciona si vas a buscar con tu número de guía o de pedido.
+			<p className="text-xs text-secondary text-center md:text-left">
+				Digita el número de tu pedido o guía que recibiste en tu correo de
+				confirmación.
 			</p>
 		</form>
 	)
