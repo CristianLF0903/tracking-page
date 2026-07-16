@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -40,6 +40,7 @@ jobs:
           VITE_TOKEN_AUTH_URL: ${{ secrets.VITE_TOKEN_AUTH_URL }}
           VITE_ORDERS_API_URL: ${{ secrets.VITE_ORDERS_API_URL }}
           VITE_ORDERS_TOKEN_KEY: ${{ secrets.VITE_ORDERS_TOKEN_KEY }}
+          VITE_IFRAME_PARENT_ORIGINS: ${{ secrets.VITE_IFRAME_PARENT_ORIGINS }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
