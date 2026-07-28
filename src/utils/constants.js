@@ -14,6 +14,7 @@ export const STATUS_MAP = {
   DISPATCHED: 'Despachado',
   IN_TRANSIT: 'En camino',
   DELIVERED: 'Entregado',
+  CON_NOVEDAD: 'Con Novedad',
 };
 
 export const STATUS_FLOW = [

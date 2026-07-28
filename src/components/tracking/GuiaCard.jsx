@@ -19,6 +19,7 @@ const GuiaCard = ({ guia }) => {
 		Enviado: 'Despachado',
 		'En camino': 'En camino',
 		Recibido: 'Entregado',
+		'Con Novedad': 'Con Novedad',
 	}
 
 	const shipping_status =
@@ -87,7 +88,11 @@ const GuiaCard = ({ guia }) => {
 							</h3>
 							<Badge
 								variant={
-									shipping_status === 'Entregado' ? 'success' : 'primary'
+									shipping_status === 'Entregado'
+										? 'success'
+										: shipping_status.toLowerCase().includes('novedad')
+											? 'warning'
+											: 'primary'
 								}
 							>
 								{shipping_status}
